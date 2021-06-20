@@ -1,0 +1,2 @@
+Main-Class: ru.itis.threadsimage.app.App
+
