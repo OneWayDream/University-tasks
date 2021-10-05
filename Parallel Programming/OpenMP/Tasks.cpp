@@ -1,6 +1,6 @@
 #include <iostream>
 #include <omp.h>
-#include "windows.h"
+#include "windows.h" 
 
 using namespace std;
 
@@ -25,8 +25,9 @@ void way_1();
 void way_2();
 void way_3();
 void way_4();
+void way_5();
 
-int main(){
+int main() {
 	/*task_1();*/
 	//
 	/*task_2(2);
@@ -103,7 +104,7 @@ void task_1() {
 	{
 		printf("Hello world (index = %d, amount of threads = %d)\n", omp_get_thread_num(), omp_get_num_threads());
 	}
-	//Порядок вывода команд произволен - у потоков нет чёткой последовательности выполнения - это случайность.
+	//РџРѕСЂСЏРґРѕРє РІС‹РІРѕРґР° РєРѕРјР°РЅРґ РїСЂРѕРёР·РІРѕР»РµРЅ - Сѓ РїРѕС‚РѕРєРѕРІ РЅРµС‚ С‡С‘С‚РєРѕР№ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё РІС‹РїРѕР»РЅРµРЅРёСЏ - СЌС‚Рѕ СЃР»СѓС‡Р°Р№РЅРѕСЃС‚СЊ.
 }
 
 void task_2(int threads_amount) {
@@ -112,7 +113,7 @@ void task_2(int threads_amount) {
 		if (omp_in_parallel())
 		{
 			printf("Thread %d is here.\n", omp_get_thread_num());
-			#pragma omp single
+		#pragma omp single
 			{
 				printf_s("val = %d, parallelized with %d threads.\n",
 					threads_amount, omp_get_num_threads());
@@ -126,8 +127,8 @@ void task_2(int threads_amount) {
 			}
 		}
 	}
-	//Программа работает корректно, но количество потоков, которые в итоге задействованы - 16 (для меня).
-	//Можно указать их точное количество. Входной параметр влияет лишь на то, будет ли распараллеливание или нет
+	//РџСЂРѕРіСЂР°РјРјР° СЂР°Р±РѕС‚Р°РµС‚ РєРѕСЂСЂРµРєС‚РЅРѕ, РЅРѕ РєРѕР»РёС‡РµСЃС‚РІРѕ РїРѕС‚РѕРєРѕРІ, РєРѕС‚РѕСЂС‹Рµ РІ РёС‚РѕРіРµ Р·Р°РґРµР№СЃС‚РІРѕРІР°РЅС‹ - 16 (РґР»СЏ РјРµРЅСЏ).
+	//РњРѕР¶РЅРѕ СѓРєР°Р·Р°С‚СЊ РёС… С‚РѕС‡РЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ. Р’С…РѕРґРЅРѕР№ РїР°СЂР°РјРµС‚СЂ РІР»РёСЏРµС‚ Р»РёС€СЊ РЅР° С‚Рѕ, Р±СѓРґРµС‚ Р»Рё СЂР°СЃРїР°СЂР°Р»Р»РµР»РёРІР°РЅРёРµ РёР»Рё РЅРµС‚
 }
 
 void task_3(int a, int b) {
@@ -194,7 +195,7 @@ void task_4(int a[], int b[]) {
 			printf("I did minimum task, I'm %d thread!\n", omp_get_thread_num());
 			printf("Min value for 'a' array - %d\n", min);
 		}
-		else 
+		else
 		{
 			int max = -1;
 			for (int i = 0; i < 10; i++)
@@ -283,42 +284,42 @@ void task_5(int d[], int n, int m) {
 }
 
 void task_6(int a[], int n) {
-	int sum_for = 0; 
+	int sum_for = 0;
 	#pragma omp parallel for
-		for (int i = 0; i < n; i++)
-		{
-			sum_for += a[i];
-		}
+	for (int i = 0; i < n; i++)
+	{
+		sum_for += a[i];
+	}
 	float mean_for = sum_for / n;
 	printf("Mean value is %f, information from 'for' field.\n", mean_for);
 
 	int sum_reduction = 0;
 	#pragma omp parallel for reduction(+ : sum_reduction)
-		for (int i = 0; i < n; i++)
-		{
-			sum_reduction += a[i];
-		}
+	for (int i = 0; i < n; i++)
+	{
+		sum_reduction += a[i];
+	}
 	float mean_reduction = sum_reduction / n;
 	printf("Mean value is %f, information from 'reduction' field.\n", mean_reduction);
-	// Разница результатов - в простом цикле могут происходить потоковые ошибки. А reduction убирает их.
+	// Р Р°Р·РЅРёС†Р° СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ - РІ РїСЂРѕСЃС‚РѕРј С†РёРєР»Рµ РјРѕРіСѓС‚ РїСЂРѕРёСЃС…РѕРґРёС‚СЊ РїРѕС‚РѕРєРѕРІС‹Рµ РѕС€РёР±РєРё. Рђ reduction СѓР±РёСЂР°РµС‚ РёС….
 }
 
 void task_7() {
 	int a[12], b[12], c[12];
 
 	#pragma omp parallel for num_threads(3) schedule(static, 4)
-		for (int i = 0; i < 12; i++) {
-			a[i] = rand() % 100;
-			b[i] = a[i];
-			printf("Hey, I'm thread %d from %d threads, and I generated a[i]=%d and b[i]=%d\n", omp_get_thread_num(), omp_get_num_threads(), a[i], b[i]);
-		}
+	for (int i = 0; i < 12; i++) {
+		a[i] = rand() % 100;
+		b[i] = a[i];
+		printf("Hey, I'm thread %d from %d threads, and I generated a[i]=%d and b[i]=%d\n", omp_get_thread_num(), omp_get_num_threads(), a[i], b[i]);
+	}
 
 	printf("/-----------------------------\\\n");
 	#pragma omp parallel for num_threads(4) schedule(dynamic, 2)
-		for (int i = 0; i < 12; i++) {
-			c[i] = a[i] + b[i];
-			printf("Hey, I'm thread %d from %d threads, and I generated c[i]=%d\n", omp_get_thread_num(), omp_get_num_threads(), c[i]);
-		}
+	for (int i = 0; i < 12; i++) {
+		c[i] = a[i] + b[i];
+		printf("Hey, I'm thread %d from %d threads, and I generated c[i]=%d\n", omp_get_thread_num(), omp_get_num_threads(), c[i]);
+	}
 }
 
 void task_8() {
@@ -339,16 +340,16 @@ void test_static() {
 		int a[n];
 		float b[n];
 		double start = omp_get_wtime();
-		#pragma omp parallel for schedule(static, static_k)
-			for (int i = 0; i < n; i++)
-			{
-				a[i] = i;
-			}
-		#pragma omp parallel for schedule(static, static_k)
-			for (int i = 1; i < n - 1; i++)
-			{
-				b[i] = (a[i - 1] + a[i] + a[i + 1]) / 3.0;
-			}
+	#pragma omp parallel for schedule(static, static_k)
+		for (int i = 0; i < n; i++)
+		{
+			a[i] = i;
+		}
+	#pragma omp parallel for schedule(static, static_k)
+		for (int i = 1; i < n - 1; i++)
+		{
+			b[i] = (a[i - 1] + a[i] + a[i + 1]) / 3.0;
+		}
 		double finish = omp_get_wtime();
 		double d = finish - start;
 		//printf("(%d, %f)\n", static_k, d);
@@ -370,16 +371,16 @@ void test_dynamic() {
 		int a[n];
 		float b[n];
 		double start = omp_get_wtime();
-		#pragma omp parallel for schedule(dynamic, dynamic_k)
-			for (int i = 0; i < n; i++)
-			{
-				a[i] = i;
-			}
-		#pragma omp parallel for schedule(dynamic, dynamic_k)
-			for (int i = 1; i < n - 1; i++)
-			{
-				b[i] = (a[i - 1] + a[i] + a[i + 1]) / 3.0;
-			}
+	#pragma omp parallel for schedule(dynamic, dynamic_k)
+		for (int i = 0; i < n; i++)
+		{
+			a[i] = i;
+		}
+	#pragma omp parallel for schedule(dynamic, dynamic_k)
+		for (int i = 1; i < n - 1; i++)
+		{
+			b[i] = (a[i - 1] + a[i] + a[i + 1]) / 3.0;
+		}
 		double finish = omp_get_wtime();
 		double d = finish - start;
 		//printf("(%d, %f)\n", dynamic_k, d);
@@ -401,12 +402,12 @@ void test_guided() {
 		int a[n];
 		float b[n];
 		double start = omp_get_wtime();
-		#pragma omp parallel for schedule(guided, guiled_k)
+	#pragma omp parallel for schedule(guided, guiled_k)
 		for (int i = 0; i < n; i++)
 		{
 			a[i] = i;
 		}
-		#pragma omp parallel for schedule(guided, guiled_k)
+	#pragma omp parallel for schedule(guided, guiled_k)
 		for (int i = 1; i < n - 1; i++)
 		{
 			b[i] = (a[i - 1] + a[i] + a[i + 1]) / 3.0;
@@ -429,15 +430,15 @@ void test_runtime() {
 	int a[n];
 	float b[n];
 	#pragma omp parallel for schedule(runtime)
-		for (int i = 0; i < n; i++)
-		{
-			a[i] = i;
-		}
+	for (int i = 0; i < n; i++)
+	{
+		a[i] = i;
+	}
 	#pragma omp parallel for schedule(runtime)
-		for (int i = 1; i < n - 1; i++)
-		{
-			b[i] = (a[i - 1] + a[i] + a[i + 1]) / 3.0;
-		}
+	for (int i = 1; i < n - 1; i++)
+	{
+		b[i] = (a[i - 1] + a[i] + a[i + 1]) / 3.0;
+	}
 	double finish = omp_get_wtime();
 	double d = finish - start;
 	printf("(%f)\n", d);
@@ -452,7 +453,7 @@ int* task_9(int arr[], int vektor[]) {
 	for (int i = 0; i < 1000; i++) {
 		int sum = 0;
 		for (int j = 0; j < 100; j++) {
-			sum += arr[i*100+j] * vektor[j];
+			sum += arr[i * 100 + j] * vektor[j];
 		}
 		result[i] = sum;
 	}
@@ -462,13 +463,13 @@ int* task_9(int arr[], int vektor[]) {
 	//static realisation
 	start = omp_get_wtime();
 	#pragma omp parallel for
-		for (int i = 0; i < 1000; i++) {
-			int sum = 0;
-			for (int j = 0; j < 100; j++) {
-				sum += arr[i * 100 + j] * vektor[j];
-			}
-			result[i] = sum;
+	for (int i = 0; i < 1000; i++) {
+		int sum = 0;
+		for (int j = 0; j < 100; j++) {
+			sum += arr[i * 100 + j] * vektor[j];
 		}
+		result[i] = sum;
+	}
 	finish = omp_get_wtime();
 	printf("static parallel method gives us %f time\n", finish - start);
 
@@ -501,15 +502,15 @@ int* task_9(int arr[], int vektor[]) {
 	//runtime realisation
 	start = omp_get_wtime();
 	#pragma omp parallel for schedule(runtime)
-		for (int i = 0; i < 1000; i++) {
-			int sum = 0;
-			for (int j = 0; j < 100; j++) {
-				sum += arr[i * 100 + j] * vektor[j];
-			}
-			result[i] = sum;
+	for (int i = 0; i < 1000; i++) {
+		int sum = 0;
+		for (int j = 0; j < 100; j++) {
+			sum += arr[i * 100 + j] * vektor[j];
 		}
-		finish = omp_get_wtime();
-		printf("Runtime parallel method gives us %f time\n", finish - start);
+		result[i] = sum;
+	}
+	finish = omp_get_wtime();
+	printf("Runtime parallel method gives us %f time\n", finish - start);
 	return result;
 }
 
@@ -529,26 +530,26 @@ void task_10(int d[]) {
 		printf("|\n");
 	}
 	#pragma omp parallel for
-		for (int i = 0; i < 6; i++) {
-			for (int j = 0; j < 8; j++) {
-				{
-					if (d[i * 8 + j] > max) {
-						#pragma omp critical
-						{
-							if (d[i * 8 + j] > max)
-								max = d[i * 8 + j];
-						}
+	for (int i = 0; i < 6; i++) {
+		for (int j = 0; j < 8; j++) {
+			{
+				if (d[i * 8 + j] > max) {
+		#pragma omp critical
+					{
+						if (d[i * 8 + j] > max)
+							max = d[i * 8 + j];
 					}
-					if (d[i * 8 + j] < min) {
-						#pragma omp critical
-						{
-							if (d[i * 8 + j] < min)
-								min = d[i * 8 + j];
-						}
+				}
+				if (d[i * 8 + j] < min) {
+		#pragma omp critical
+					{
+						if (d[i * 8 + j] < min)
+							min = d[i * 8 + j];
 					}
 				}
 			}
 		}
+	}
 	printf("Max = %d, min = %d.", max, min);
 }
 
@@ -563,12 +564,12 @@ void task_11(int a[]) {
 	}
 	printf("]\n");
 	#pragma omp parallel for
-		for (int i = 0; i < 30; i++) {
-			if (a[i] % 9 == 0) {
-				#pragma omp atomic
-				counter++;
-			}
+	for (int i = 0; i < 30; i++) {
+		if (a[i] % 9 == 0) {
+	#pragma omp atomic
+			counter++;
 		}
+	}
 	printf("%d", counter);
 }
 
@@ -583,44 +584,45 @@ void task_12(int a[]) {
 	printf("]\n");
 	int max = -1;
 	#pragma omp parallel for
-		for (int i = 0; i < 30; i++) {
-			if (a[i] % 7 == 0) {
-				if (a[i] > max) {
-					#pragma omp critical
-					{
-						if (a[i] > max)
-							max = a[i];
-					}
+	for (int i = 0; i < 30; i++) {
+		if (a[i] % 7 == 0) {
+			if (a[i] > max) {
+		#pragma omp critical
+				{
+					if (a[i] > max)
+						max = a[i];
 				}
 			}
 		}
+	}
 	printf("Max number aliquot 7 - %d", max);
 }
 
 void task_13() {
-	//way_1();
+	way_1();
 	//way_2();
 	//way_3();
-	way_4();
+	//way_4();
+	//way_5();
 }
 
 void way_1() {
 	int counter = 0;
 	#pragma omp parallel num_threads(8) shared(counter)
+	{
+		//Sleep((8- omp_get_thread_num())*100);
+		int k;
+		#pragma omp critical
 		{
-			//Sleep((8- omp_get_thread_num())*100);
-			int k;
-			#pragma omp critical
-			{
-				printf("Thread num %d\n", omp_get_thread_num());
-				counter++;
-				k = counter;
-				printf("Sleep time %d\n", k);
-				printf("------------\n");
-			}
-			Sleep((8 - k) * 100);
-			printf("Hello world (index = %d, amount of threads = %d)\n", omp_get_thread_num(), omp_get_num_threads());
+			printf("Thread num %d\n", omp_get_thread_num());
+			counter++;
+			k = counter;
+			printf("Sleep time %d\n", k);
+			printf("------------\n");
 		}
+		Sleep((8 - k) * 100);
+		printf("Hello world (index = %d, amount of threads = %d)\n", omp_get_thread_num(), omp_get_num_threads());
+	}
 }
 
 void way_2() {
@@ -679,17 +681,44 @@ void way_2() {
 
 void way_3() {
 	#pragma omp parallel for schedule(static, 1)
-		for (int i = 0; i < 8; i++)
-		{
-			printf("Thread num %d\n", 8 - omp_get_thread_num());
-			int k;
-			printf("Sleep time %d\n", i);
-			printf("------------\n");
-			Sleep((8 - i) * 100);
-			printf("Hello world (index = %d, amount of threads = %d)\n", omp_get_thread_num(), omp_get_num_threads());
-		}
+	for (int i = 0; i < 8; i++)
+	{
+		printf("Thread num %d\n", 8 - omp_get_thread_num());
+		int k;
+		printf("Sleep time %d\n", i);
+		printf("------------\n");
+		Sleep((8 - i) * 100);
+		printf("Hello world (index = %d, amount of threads = %d)\n", omp_get_thread_num(), omp_get_num_threads());
+	}
 }
 
 void way_4() {
-	
+	#pragma omp parallel num_threads(8)
+	{
+		for (int i = 7; i > -1; i--)
+		{
+		#pragma omp barrier
+		if (omp_get_thread_num() == i)
+			printf("Hello world (index = %d, amount of threads = %d)\n", omp_get_thread_num(), omp_get_num_threads());
+		}
+	}
+}
+
+void way_5() {
+	int counter = 7;
+	boolean is_work;
+	#pragma omp parallel num_threads(8)
+	{
+		while (is_work)
+		{
+			if (counter == omp_get_thread_num())
+			{
+				printf("Hello world (index = %d, amount of threads = %d)\n", omp_get_thread_num(), omp_get_num_threads());
+				counter--;
+			}
+			if (counter == 0) {
+				is_work = false;
+			}
+		}
+	}
 }
