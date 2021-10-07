@@ -22,4 +22,5 @@ else:
 for i in range (0, N):
     res = os.wait();
     print("Child process with PID=%d is complete. Completion status is %d" % (res[0], res[1]));
+    #Svidirov Kirill, 11-902
     
