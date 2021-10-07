@@ -10,6 +10,6 @@ There is no special filter for logging cuz other filters and classes contains th
 
 Screenshot with user cookie:
 
-![User cookie](https://github.com/OneWayDream/Javalab_3/blob/main/5/CookieExample.png?raw=true)
+![User cookie](https://github.com/OneWayDream/University-tasks/blob/main/Java%20Third%20Semester/5/CookieExample.png?raw=true)
 
 /---------------------------------------------------------------------------\

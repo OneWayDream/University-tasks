@@ -15,3 +15,4 @@ else:
     exit_status = int(random.uniform(0, 2));
     print("The process with PID=%d completed" % (os.getpid()));
     os._exit(exit_status);
+    #Svidirov Kirill, 11-902
