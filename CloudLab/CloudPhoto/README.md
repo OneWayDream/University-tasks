@@ -20,3 +20,5 @@ java --version
 ```
 sudo apt install openjdk-17-jre
 ```
+
+Выполнил Свидиров Кирилл, 11-902 группа.
