@@ -1,0 +1,37 @@
+openapi: 3.0.0
+info:
+  title: Pictures Storage API
+  version: 1.0.0
+servers:
+- url: https://d5dndpe093uuji919amv.apigw.yandexcloud.net
+paths:
+  /face/{key}:
+    get:
+      x-yc-apigateway-integration:
+        type: object_storage
+        bucket: itis-2022-2023-vvot28-faces
+        object: '{key}'
+        service_account_id: ajec2av90tsckkcm60bo
+      parameters:
+      - explode: false
+        in: path
+        name: key
+        required: true
+        schema:
+          type: string
+        style: simple
+  /photo/{key}:
+    get:
+      x-yc-apigateway-integration:
+        type: object_storage
+        bucket: itis-2022-2023-vvot28-photos
+        object: '{key}'
+        service_account_id: ajec2av90tsckkcm60bo
+      parameters:
+      - explode: false
+        in: path
+        name: key
+        required: true
+        schema:
+          type: string
+        style: simple
