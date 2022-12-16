@@ -29,3 +29,5 @@
 > Вывод фотографий. Теперь бот выведет 2 фотографии с Киану Ривсом и одно фото с Мэттью Перри.
 
 ![Вывод фотографий](https://github.com/OneWayDream/University-tasks/blob/main/CloudLab/Photo%20Repository/images/tg_bot_example_5.png?raw=true)
+
+Выполнил Свидиров Кирилл, 11-902 группа.
