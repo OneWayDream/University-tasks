@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="0" author="OneWayDream">
+        <comment>Creating a blockchain content database</comment>
+        <createTable tableName="blockchain_block">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="content" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="miner_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="hash" type="binary">
+                <constraints nullable="false"/>
+            </column>
+            <column name="previous_hash" type="binary">
+                <constraints nullable="false"/>
+            </column>
+            <column name="none" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="miner_content_sign" type="binary">
+                <constraints nullable="false"/>
+            </column>
+            <column name="miner_block_sign" type="binary">
+                <constraints nullable="false"/>
+            </column>
+            <column name="auditor_content_sign" type="binary">
+                <constraints nullable="false"/>
+            </column>
+            <column name="auditor_block_sign" type="binary">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content_sign_time" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="block_sign_time" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="add_time" type="timestamp">
+                <constraints unique="true" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1" author="OneWayDream">
+        <comment>Creating a miner's keys table</comment>
+        <createTable tableName="user_keys">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="int" autoIncrement="true">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="public_key" type="binary">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="private_key" type="binary">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

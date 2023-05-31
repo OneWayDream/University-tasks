@@ -1,0 +1,34 @@
+spring:
+  # Database properties
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    generate-ddl: false
+    hibernate.ddl-auto: none
+    properties.hibernate.jdbc.lob.non_contextual_creation: true
+    open-in-view: false
+    show-sql: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/BlockChain
+    password: qwerty008
+    username: postgres
+    driver-class-name: org.postgresql.Driver
+  # Liquibase properties
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+  profiles:
+    active: remote
+
+# General settings
+server:
+  port: 8080
+
+block-chain:
+  random-transactions-amount: 10
+  miners-amount: 5
+  hash-zeroes-amount: 2
+  auditor-id: -1
+  initializing-vector: My avesome initializing vector
+  auditor:
+    sign-url: http://89.108.115.118/ts
+    key-url: http://89.108.115.118/ts/public
